@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+<<<<<<< Updated upstream
+
+// redux-toolkit 기본 세팅
+import store from './redux/store';
+=======
+// Redux-toolkit 세팅
+import { store } from './redux/store';
+>>>>>>> Stashed changes
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+<<<<<<< Updated upstream
   <React.StrictMode>
-    <App />
+    <Provider store={store}> {/*redux-toolkit 기본 세팅*/}
+=======
+  <React.StrictMode>  
+    <Provider store={store}> {/* Redux-toolkit 세팅 */}
+>>>>>>> Stashed changes
+      <App />
+    </Provider>
   </React.StrictMode>
 );
+<<<<<<< Updated upstream
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+=======
+>>>>>>> Stashed changes
