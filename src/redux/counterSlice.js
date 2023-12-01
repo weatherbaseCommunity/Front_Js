@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import { createSlice } from '@reduxjs/toolkit'
 
 export const counterSlice = createSlice({
@@ -19,29 +18,6 @@ export const counterSlice = createSlice({
   }
 })
 
-// Action creators are generated for each case reducer function
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 
-=======
-import { createSlice } from "@reduxjs/toolkit";
-
-const initiaState = {
-  value: 0,
-}
-
-export const counterSlice = createSlice({
-  name : 'counter',
-  initiaState,
-  reducers: {
-    plus: (state) => {
-      state.value += 1;
-    },
-    minus: (state) => {
-      state.value -= 1;
-    },
-  },
-})
-
-export const {plus, minus} = counterSlice.actions
->>>>>>> Stashed changes
 export default counterSlice.reducer
