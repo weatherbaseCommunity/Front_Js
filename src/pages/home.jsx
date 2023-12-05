@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import './home.scss';
 
 import MainClock from "../components/MainClock";
 
@@ -14,10 +15,11 @@ const HomeLayout = styled.div`
 export default function Home() {
   let [backgroundTemp, setbgTemp] = useState('#ADC8D9');
   
-
   return (
     <HomeLayout color={backgroundTemp}>
-      <MainClock></MainClock>
+      <div className="homeLayout_mainClock">
+        <MainClock></MainClock>
+      </div>
     </HomeLayout>
   )
 }

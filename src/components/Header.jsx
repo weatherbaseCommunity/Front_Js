@@ -30,7 +30,7 @@ const LoginWrapper = styled.div`
     margin: auto 0;
     margin-right: 50px;
     &:hover {
-      color: lightskyblue;
+      color: white;
       cursor: pointer;
     }
   }
