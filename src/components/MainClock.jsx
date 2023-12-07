@@ -21,33 +21,7 @@ export default function MainClock() {
   // luxon 라이브러리를 통해 날짜를 받아와 저장해준다. 형식과 데이터의 형태를 지정할 수 있다.
   const [date, setDate] = useState(DateTime.now().setLocale('en-us').toLocaleString(DateTime.DATE_HUGE));
 
-  let [userData, setUserData] = useState();
-  
-  useEffect(()=>{
-    const fetch = async () => {
-      try {
-        const response = await axios.get('https://geolocation-db.com/json/');
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch().then(response => {
-      setUserData(response);
-    });
-  },[]);
 
-  let [userWeatherData, setUserWeatherData] = useState();
-  const getWeatherData = async () => {
-    await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userData.latitude}&lon=${userData.longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}`)
-    .then((res) => {
-      console.log(res.data.weather[0].main);
-      setUserWeatherData(res.data.weather[0].main);
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
 
 
   return (
@@ -59,8 +33,6 @@ export default function MainClock() {
         {date}
       </div>
       <div></div>
-      <button onClick={getWeatherData}>test</button>
-      <div>{userWeatherData}</div>
     </ClockLayout>
   )
 }
