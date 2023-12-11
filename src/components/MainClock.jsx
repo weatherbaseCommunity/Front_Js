@@ -1,11 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useDispatch, useSelector } from "react-redux";
 
+
 const ClockLayout = styled.div`
   font-size: 70px;
+  position: relative;
+`
+const AnimationWrap = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  left: 25%;
+  background-image: url('../../image/snow.gif');
 `
 
 export default function MainClock() {
@@ -22,17 +31,16 @@ export default function MainClock() {
   const [date, setDate] = useState(DateTime.now().setLocale('en-us').toLocaleString(DateTime.DATE_HUGE));
 
 
-
-
   return (
     <ClockLayout>
+      <AnimationWrap className="12"></AnimationWrap>
       <div>
         {time}
       </div>
       <div style={{fontSize:'30px'}}>
         {date}
       </div>
-      <div></div>
+      
     </ClockLayout>
   )
 }
