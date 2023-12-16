@@ -10,9 +10,11 @@ import Header from '../components/Header';
 import Loading from "../components/Loading";
 import MainClock from "../components/MainClock";
 import PostCard from "../components/PostCard";
+import Search from "../components/Search";
 
 // redux action
 import { setWeather, updateInfo } from "../redux/userAccessInfoSlice";
+import { useNavigate } from "react-router-dom";
 
 const HomeLayout = styled.div`
   width: 100%;
@@ -107,6 +109,11 @@ export default function Home() {
       "linear-gradient(0deg, rgb(251, 249, 250) 0%, 21.3826%, rgb(163, 155, 212) 42.7653%, 64.869%, rgb(128, 130, 191) 100%)"
     ]
   }
+
+  const navigate = useNavigate();
+  const moveToWriting = () => {
+    navigate("/writing");
+  }
   if (isLoading) {
     return (
     <Loading></Loading>
@@ -122,14 +129,20 @@ export default function Home() {
         <div style={{textAlign: "center"}}>현재날씨 : {userData.weather}</div>
         <HomeLayout_Arrow onClick={arrowClick}>화살표</HomeLayout_Arrow>
       </HomeLayout>
-      <div className="postCardBoardLayout" ref={scollRef}>
-        <div className="postCardBoardWrap">
-          <div className="postCardBoard">
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
+      <div className="homeContentWrap" ref={scollRef}>
+        <div className="homeTabWrap">
+          <Search></Search>
+          <button onClick={moveToWriting}>글쓰기</button>
+        </div>
+        <div className="postCardBoardLayout" >
+          <div className="postCardBoardWrap">
+            <div className="postCardBoard">
+              <PostCard></PostCard>
+              <PostCard></PostCard>
+              <PostCard></PostCard>
+              <PostCard></PostCard>
+              <PostCard></PostCard>
+            </div>
           </div>
         </div>
       </div>
