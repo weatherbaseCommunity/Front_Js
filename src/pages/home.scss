@@ -1,4 +1,38 @@
+.homeContainer {
+  width: 100%;
+  min-height: 100vh;
+}
 .homeLayout_mainClock {
   text-align: center;
   padding-top: 150px;
+}
+
+.homeTabWrap {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.postCardBoardLayout {
+  display: flex;
+  justify-content: center;
+}
+
+.postCardBoardWrap {
+  display: flex;
+  margin-top: 32px;
+  padding-bottom: 16px;
+  width: 1408px;
+  @media screen and (min-width: 0px) and (max-width: 720px) {
+    width: 350px;
+  }
+  @media screen and (min-width: 720px) and (max-width: 1070px) {
+    width: 704px;
+  }
+  @media screen and (min-width: 1070px) and (max-width: 1422px) {
+    width: 1056px;
+  }
+}
+.postCardBoard {
+  display: flex;
+  flex-wrap: wrap;
 }
