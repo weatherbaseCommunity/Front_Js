@@ -5,7 +5,7 @@ const SearchLayout = styled.fieldset`
   position: relative;
   padding: 0;
   margin: 0;
-  /* border: gray 1px; */
+  /* border: #aaa 2px; */
   width: 330px;
   height: 40px;
   input {
@@ -22,7 +22,6 @@ const SearchLayout = styled.fieldset`
 
 export default function Search() {
   const focusSearch = () => {
-
   }
   return (
     <SearchLayout>
