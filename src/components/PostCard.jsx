@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 
 const PostCardLayout = styled.div`
+  background-color: white;
   margin: 1rem;
   width: 20rem;
   border-radius: 4px;
