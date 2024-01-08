@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import * as SocialLogin from "../components/SocialLogin";
 
 const ContentWrap = styled.section`
   position: relative;
@@ -42,6 +44,26 @@ const ContentWrap = styled.section`
     }
   }
 `
+const MiddleLine = styled.div`
+  position: relative;
+  display: block;
+  margin: 20px 0 19px;
+  color: #000;
+  font-size: 13px;
+  text-align: center;
+  line-height: 16px;
+  &::before {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0%;
+    left: 0;
+    transform: translateZ(0);
+    background: #000;
+    content: '';
+  }
+`
 const LoginButton = styled.div`
   background: ${props => props.background};
   color: #fff;
@@ -74,15 +96,57 @@ const LoginButton = styled.div`
     padding: 0 55px;
   }
 `
+const InputStyle = styled.input`
+  width: 100%;
+  height: 44px;
+  padding-top: 3px;
+  border: 1px solid #e5e8eb;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  outline: 0;
+  transition: border-color .15s linear;
+  &:focus {
+    border: 2px solid #07f;
+    padding-top: 2px;
+    transition: border-color .15s linear;
+  }
+`
 
 export default function LoginPage() {
   const accessUserData = useSelector((state) => {return state.userAccessInfo})
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  function movePage(path) {
-    navigate(path);
+
+  const [authData, setAuthData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const handleIDInput = (e) => {
+    let temp = {...authData};
+    temp.email = e.target.value;
+    setAuthData(temp);
   }
+  const handlePWInput = (e) => {
+    let temp = {...authData};
+    temp.password = e.target.value;
+    setAuthData(temp);
+  }
+  const commonSignIn = () => {
+    axios.post("/api/auth/signin", {
+      email: authData.email,
+      password: authData.password
+    }).then((result) => {
+      window.sessionStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
+      window.sessionStorage.setItem("REFRESH_TOKEN", result.data.refreshToken);
+      navigate('/')
+    }).catch((error) => {
+      console.log("실패");
+      console.log(error);
+    })
+  }
+
   return (
     <div style={{height: "100vh", backgroundImage: accessUserData.gradation}}>
       <Header></Header>
@@ -90,26 +154,55 @@ export default function LoginPage() {
         <h1>로그인</h1>
         <ul>
           <li>
+            <form onSubmit={(e) => {e.preventDefault();}}>
+              <div style={{height:'56px'}}>
+                <InputStyle 
+                  type="text"
+                  placeholder="ID를 입력하세요"
+                  onChange={handleIDInput}
+                />
+              </div>
+              <div style={{height:'56px'}}>
+                <InputStyle 
+                  type="text"
+                  placeholder="PW를 입력하세요"
+                  onChange={handlePWInput}
+                />
+              </div>
+            </form>
+            <button onClick={commonSignIn}>로그인</button>
+            <MiddleLine>
+              <span>또는</span>
+            </MiddleLine>
+          </li>
+          <li>
             <LoginButton 
+              onClick={() => {SocialLogin.Login(process.env.REACT_APP_CLIENT_ID_GOOGLE, 'http://localhost:3000/authgoogle', 'google')}}
               background={'#8a8c9b'} 
               bgImage={'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg'}>
-              <span>구글로 로그인</span>  
+              <span>구글로 시작하기</span>  
             </LoginButton>
           </li>
           <li>
             <LoginButton 
+              onClick={() => {window.location.href =  `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_CLIENT_ID_NAVER}&redirect_uri=http://localhost:3000/authnaver&state=weatherBoard`}}
               background={'#2DB400'} 
               bgImage={'../../image/naverIcon.svg'}>
-              <span>네이버로 로그인</span>
-              {/* <div style={{height: "20px", width: "20px"}}>
-                <svg viewBox="-51.2 -51.2 614.40 614.40" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="5.12"><path fill="#ffffff" d="M9 32V480H181.366V255.862L331.358 480H504V32H331.358V255.862L181.366 32H9Z"></path></g><g id="SVGRepo_iconCarrier"><path fill="#ffffff" d="M9 32V480H181.366V255.862L331.358 480H504V32H331.358V255.862L181.366 32H9Z"></path></g></svg>
-              </div>   */}
+              <span>네이버로 시작하기</span>
+            </LoginButton>
+          </li>
+          <li>
+            <LoginButton
+              onClick={() => {SocialLogin.Login(process.env.REACT_APP_CLIENT_ID_KAKAO, 'http://localhost:3000/authkakao', 'kakao')}} 
+              background={'#FEE500'} 
+              bgImage={'../../image/kakaoIcon.svg'}>
+              <span style={{color: "#191919"}}>카카오로 시작하기</span>
             </LoginButton>
           </li>
         </ul>
         <p>
           {`처음이신가요? `}
-          <span onClick={() => movePage('/signUp')}>회원가입</span>
+          <span onClick={() => navigate('/signUp')}>회원가입</span>
         </p>
       </ContentWrap>
     </div>

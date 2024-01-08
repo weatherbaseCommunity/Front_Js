@@ -10,6 +10,7 @@
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/react-editor": "^3.2.3",
     "axios": "^1.6.2",
+    "http-proxy-middleware": "^2.0.6",
     "luxon": "^3.4.4",
     "node-sass": "^9.0.0",
     "react": "^18.2.0",
@@ -43,5 +44,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy" : "http://localhost:8080"
 }

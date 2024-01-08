@@ -11,12 +11,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}> {/*redux-toolkit 기본 세팅*/}
-      <BrowserRouter> {/*react-router-dom 기본 세팅*/}
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}> {/*redux-toolkit 기본 세팅*/}
+    <BrowserRouter> {/*react-router-dom 기본 세팅*/}
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 

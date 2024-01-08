@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const ContentWrap = styled.section`
   position: relative;
@@ -74,15 +75,58 @@ const SignUpButton = styled.div`
     padding: 0 55px;
   }
 `
+const InputStyle = styled.input`
+  width: 100%;
+  height: 44px;
+  padding-top: 3px;
+  border: 1px solid #e5e8eb;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  outline: 0;
+  transition: border-color .15s linear;
+  &:focus {
+    border: 2px solid #07f;
+    padding-top: 2px;
+    transition: border-color .15s linear;
+  }
+`
 
 export default function SignUpPage() {
   const accessUserData = useSelector((state) => {return state.userAccessInfo})
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  function movePage(path) {
-    navigate(path);
+
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const IDSetHandler = (e) => {
+    let temp = {...signUpData};
+    temp.email = e.target.value;
+    setSignUpData(temp);
   }
+  const PWSetHandler = (e) => {
+    let temp = {...signUpData};
+    temp.password = e.target.value;
+    setSignUpData(temp);
+  }
+
+  const commonSignUp = () => {
+    axios.post("/api/auth/signup", 
+    {
+      email: signUpData.email,
+      password: signUpData.password
+    }
+    ).then((result) => {
+      navigate('/login')
+    }).catch((error) => {
+      console.log("실패");
+      console.log(error);
+    })
+  }
+
   return (
     <div style={{height: "100vh", backgroundImage: accessUserData.gradation}}>
       <Header></Header>
@@ -90,23 +134,28 @@ export default function SignUpPage() {
         <h1>회원가입</h1>
         <ul>
           <li>
-            <SignUpButton 
-              background={'#8a8c9b'} 
-              bgImage={'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg'}>
-              <span>구글로 회원가입</span>  
-            </SignUpButton>
-          </li>
-          <li>
-            <SignUpButton 
-              background={'#2DB400'} 
-              bgImage={'../../image/naverIcon.svg'}>
-              <span>네이버로 회원가입</span>  
-            </SignUpButton>
+          <form onSubmit={(e) => {e.preventDefault();}}>
+              <div style={{height:'56px'}}>
+                <InputStyle 
+                  type="text"
+                  placeholder="ID를 입력하세요"
+                  onChange={IDSetHandler}
+                />
+              </div>
+              <div style={{height:'56px'}}>
+                <InputStyle 
+                  type="text"
+                  placeholder="PW를 입력하세요"
+                  onChange={PWSetHandler}
+                />
+              </div>
+            </form>
+            <button onClick={commonSignUp}>회원가입</button>
           </li>
         </ul>
         <p>
           {`이미 가입하셨나요? `}
-          <span onClick={() => movePage('/login')}>로그인하기</span>
+          <span onClick={() => navigate('/login')}>로그인하기</span>
         </p>
       </ContentWrap>
     </div>
