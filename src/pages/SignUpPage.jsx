@@ -114,12 +114,10 @@ export default function SignUpPage() {
   }
 
   const commonSignUp = () => {
-    axios.post("/api/auth/signup", 
-    {
+    axios.post("/api/auth/signup", {
       email: signUpData.email,
       password: signUpData.password
-    }
-    ).then((result) => {
+    }).then((result) => {
       navigate('/login')
     }).catch((error) => {
       console.log("실패");

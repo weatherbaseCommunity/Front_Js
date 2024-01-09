@@ -26,7 +26,7 @@ export default function GoogleRedirect() {
       window.sessionStorage.setItem("REFRESH_TOKEN", REFRESH_TOKEN);
     }
     GoogleLogin();
-    // navigate('/', {replace: true}); // replace : true -> 뒤로가기 막기
+    navigate('/', {replace: true}); // replace : true -> 뒤로가기 막기
   }, []);
   return ;
 }

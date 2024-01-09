@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 import Home from './pages/home';
 import Writing from './components/Writing';
-import LoginPage from './pages/LoginPage'
+import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage';
 import GoogleRedirect from './components/auth/authgoogle';
 import NaverRedirect from './components/auth/authnaver';
@@ -25,7 +25,7 @@ const LoginRoutes = [
 ]
 const LogoutRoutes = [
   { path: "/", component: <Home />},
-  { path: "/login", component: <LoginPage />},
+  { path: "/SignIn", component: <SignInPage />},
   { path: "/signUp", component: <SignUpPage />},
   { path: "/authgoogle", component: <GoogleRedirect />},
   { path: "/authnaver", component: <NaverRedirect />},
@@ -39,7 +39,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='/writing' element={<Writing />}></Route>
-            <Route path='/login' element={<LoginPage />}></Route>
+            <Route path='/signIn' element={<SignInPage />}></Route>
             <Route path='/signUp' element={<SignUpPage />}></Route>
             <Route path='/authgoogle' element={<GoogleRedirect />}></Route>
             <Route path='/authnaver'  element={<NaverRedirect />}></Route>

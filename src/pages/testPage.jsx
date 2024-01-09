@@ -23,9 +23,6 @@ export default function TestPage() {
     window.sessionStorage.setItem("data", json);
   }
 
-  const {isLogin} = UserAuth();
-  console.log(isLogin);
-
   return(
     <>
       <input type="text" onChange={testHandle}/>

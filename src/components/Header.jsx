@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import { userAuth, userLogout } from "./auth/userAuth";
 
 const HeaderLayout = styled.div`
   width: 100%;
@@ -36,19 +38,25 @@ const LoginWrapper = styled.div`
   }
 `
 
-
 export default function Header() {
   const navigate = useNavigate();
-  function movePage(path) {
-    navigate(path);
-  }
+  let [isLogin, setIsLogin] = useState(userAuth());
   return (
     <HeaderLayout>
       <LogoWrapper>
-        <span onClick={()=>movePage('/')}>DOV</span>
+        <span onClick={()=>navigate('/')}>DOV</span>
       </LogoWrapper>
       <LoginWrapper>
-        <div onClick={()=>movePage('/login')}>Login</div>
+        { isLogin === true ? 
+          <>
+            <div>My Page</div>
+            <div onClick={()=>{userLogout()}}>Log Out</div>
+          </> : 
+          <>
+            <div onClick={()=>navigate('/signIn')}>SignIn</div>
+            <div onClick={()=>navigate('/signUp')}>SignUp</div>
+          </>
+        }
       </LoginWrapper>
     </HeaderLayout>
   )

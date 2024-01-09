@@ -16,6 +16,9 @@ import Search from "../components/Search";
 import { setGradation, setWeather, updateInfo } from "../redux/userAccessInfoSlice";
 import { useNavigate } from "react-router-dom";
 
+// 기능함수
+import { userAuth } from "../components/auth/userAuth"
+
 const HomeLayout = styled.div`
   width: 100%;
   /* height: 100vh; */
@@ -41,9 +44,11 @@ const HomeLayout_Arrow = styled.div`
 `
 
 export default function Home() {
-  const accessUserData = useSelector((state) => {return state.userAccessInfo})
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const accessUserData = useSelector((state) => {return state.userAccessInfo});
   const [isLoading, setLoading] = useState(false);
+  const scollRef = useRef();
 
   // 위치 데이터 호출API
   const getlocationData = async () => {
@@ -74,9 +79,7 @@ export default function Home() {
     await getWeatherData();
     setLoading(false);
   }
-
   
-  const scollRef = useRef();
   const arrowClick = () => {
     scollRef.current.scrollIntoView({behavior: "smooth"});
   }
@@ -110,12 +113,6 @@ export default function Home() {
     ]
   }
   
-
-  const navigate = useNavigate();
-  const moveToWriting = () => {
-    navigate("/writing");
-  }
-  
   useEffect(()=>{
     mainAPI();
   },[]);
@@ -137,13 +134,13 @@ export default function Home() {
         <div className="homeLayout_mainClock">
           <MainClock></MainClock>
         </div>
-        <HomeLayout_Arrow onClick={arrowClick}>
+        <HomeLayout_Arrow onClick={()=>{arrowClick()}}>
           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
         </HomeLayout_Arrow>
         <div className="homeContentWrap" ref={scollRef}>
           <div className="homeTabWrap">
             <Search></Search>
-            <button onClick={moveToWriting}>글쓰기</button>
+            <button onClick={()=>{navigate('/writing')}}>글쓰기</button>
           </div>
           <div className="postCardBoardLayout">
             <div className="postCardBoardWrap">

@@ -113,7 +113,7 @@ const InputStyle = styled.input`
   }
 `
 
-export default function LoginPage() {
+export default function SignInPage() {
   const accessUserData = useSelector((state) => {return state.userAccessInfo})
   const dispatch = useDispatch();
   const navigate = useNavigate();
