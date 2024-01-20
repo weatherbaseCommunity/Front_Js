@@ -1,0 +1,31 @@
+.tagInput_layout {
+  display: block;
+}
+
+.tags_wrap {
+  display: flex;
+}
+
+.tags_elements {
+  font-size: 1rem;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 2rem;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: #F8F9FA;
+  color: skyblue;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+.tag_input_area {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: text;
+  font-size: 1.125rem;
+  line-height: 2rem;
+}

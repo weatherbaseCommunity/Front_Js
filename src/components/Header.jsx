@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { userAuth, userLogout } from "./auth/userAuth";
+import useAuth from "../services/auth/useAuth";
+import useSignOut from "../services/auth/useSignOut";
 
 const HeaderLayout = styled.div`
   width: 100%;
@@ -40,17 +41,20 @@ const LoginWrapper = styled.div`
 
 export default function Header() {
   const navigate = useNavigate();
-  let [isLogin, setIsLogin] = useState(userAuth());
+  // 로그인 상태 검증 커스텀 훅
+  const {isSignIn} = useAuth();
+  // 로그아웃 하는 함수를 가진 커스텀 훅
+  const {signOut} = useSignOut();
   return (
     <HeaderLayout>
       <LogoWrapper>
         <span onClick={()=>navigate('/')}>DOV</span>
       </LogoWrapper>
       <LoginWrapper>
-        { isLogin === true ? 
+        { isSignIn === true ? 
           <>
-            <div>My Page</div>
-            <div onClick={()=>{userLogout()}}>Log Out</div>
+            <div onClick={()=>navigate('/mypage')}>My Page</div>
+            <div onClick={()=>signOut()}>Log Out</div>
           </> : 
           <>
             <div onClick={()=>navigate('/signIn')}>SignIn</div>

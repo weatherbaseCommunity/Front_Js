@@ -1,0 +1,39 @@
+.posting_comment_item {
+  width: 100%;
+  margin-bottom: 0.9rem;
+  word-break: break-all;
+  transition: padding-left 0.5s;
+  .posting_comment_content {
+    border: 1px solid;
+    border-color: #bbb;
+    font-size: 0.95rem;
+    .posting_comment_info {
+      padding: 0.2rem 0.5rem;
+      border-bottom: 1px dashed;
+      border-color: #bbb;
+      font-size: 0.85rem;
+      overflow: hidden;
+      background-color: #eee;
+      .conmment_info_right {
+        float: right;
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+    .posting_comment_message {
+      padding: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      pre {
+        margin: 0;
+        display: inherit;
+        font-size: 0.9rem;
+        font-family: inherit;
+        white-space: pre-wrap;
+        word-break: break-all;
+        line-height: 1.1rem;
+        color: #000;
+      }
+    }
+  }
+}

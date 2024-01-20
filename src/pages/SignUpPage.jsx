@@ -118,7 +118,7 @@ export default function SignUpPage() {
       email: signUpData.email,
       password: signUpData.password
     }).then((result) => {
-      navigate('/login')
+      navigate('/signIn')
     }).catch((error) => {
       console.log("실패");
       console.log(error);
@@ -142,7 +142,7 @@ export default function SignUpPage() {
               </div>
               <div style={{height:'56px'}}>
                 <InputStyle 
-                  type="text"
+                  type="password"
                   placeholder="PW를 입력하세요"
                   onChange={PWSetHandler}
                 />

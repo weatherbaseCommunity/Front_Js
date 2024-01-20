@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const PostCardLayout = styled.div`
@@ -11,10 +12,7 @@ const PostCardLayout = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  img {
-    width: 320px;
-    height: 167px;
-  }
+  cursor: pointer;
 `
 const PostCardContent = styled.div`
   padding: 1rem;
@@ -35,6 +33,7 @@ const PostCardContent = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -68,7 +67,6 @@ const PostCardFooter = styled.div`
   line-height: 1.5;
   justify-content: space-between;
 `
-
 const PostCardUserInfo = styled.div`
   display: flex;
   align-items: center;
@@ -86,7 +84,6 @@ const PostCardUserInfo = styled.div`
     }
   }
 `
-
 const PostCardLikes = styled.div`
   display: flex;
   align-items: center;
@@ -97,46 +94,49 @@ const PostCardLikes = styled.div`
     margin-right: 0.5rem;
   }
 `
-const Gradient = styled.div`
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-`
 
-export default function PostCard() {
+
+export default function PostCard(props) {
+  const {cardData} = props;
+  let createdDate = cardData.createdTime.split('-', 3);
+  createdDate[2] = createdDate[2].substr(0,2);
+  const timeZone = ["morning", "afternoon", "night", "dawn"];
+
+  const navigate = useNavigate();
+  const postCardClickHandler = () => {
+    navigate(`/postingdetail/${cardData.id}`)
+  }
 
   return (
-    <PostCardLayout>
-      <Gradient style={{visibility:'hidden' ,backgroundImage: "linear-gradient(0deg, rgba(0,0,0,0), rgb(103, 115, 137,0.4) 100%"}}></Gradient>
-      <img src="https://files.grafolio.ogq.me/real/587fbb53ec092/IMAGE/616249a3-c708-4563-8bd3-6134eaaa040b.jpg" alt="TitleImg" />
+    <PostCardLayout color={cardData.gradation} onClick={()=>{postCardClickHandler()}}>
+      <div style={{backgroundImage:`${cardData.gradation}`, width: "320px", height:"167px"}}></div>
       <PostCardContent>
-        <h4>여우 사과 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci modi tempora magnam, earum esse quidem pariatur nihil obcaecati voluptate odit quos quae reprehenderit voluptates dolores. Perferendis ullam eos aperiam perspiciatis.</h4>
-        <p>컨텐츠 요약임 여우가 어쩌구 저쩌구 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero cumque assumenda dolor dicta pariatur quibusdam, beatae fugit ratione iste. Reiciendis sapiente qui quis, dolor cum voluptatibus architecto repudiandae voluptate recusandae!</p>
+        <h4>{cardData && cardData.title}</h4>
+        <p>{cardData && cardData.content}</p>
         <TagBox>
-          <div>여우</div>
-          <div>커여움</div>
-          <div>커여움</div>
+          {cardData.hashTag.map((tag, index)=>(
+            <div key={index}>{tag}</div>
+          ))}
         </TagBox>
         <PostCardSubInfo>
-          <span>2023년 12월 12일 · </span>
-          <span>Cloud · </span>
-          <span>Afternoon · </span>
-          <span>0개의 댓글</span>
+          <span>{`${createdDate[0]}년 ${createdDate[1]}월 ${createdDate[2]}일 · `}</span>
+          <span>{`${cardData.weather} · `}</span>
+          <span>{`${timeZone[cardData.timeZone]} · `}</span>
+          <span>{`${cardData.commentCnt}개의 댓글`}</span>
         </PostCardSubInfo>
       </PostCardContent>
       <PostCardFooter>
         <PostCardUserInfo>
           <img src="https://velog.io/images/user-thumbnail.png"/>
           <span>by
-            <b> joseggi</b>
+            <b>{` ${cardData.nickname}`}</b>
           </span>
         </PostCardUserInfo>
         <PostCardLikes>
           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
             <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
           </svg>
-          {"10"}
+          {`${cardData.likeCnt}` && "0"}
         </PostCardLikes>
       </PostCardFooter>
     </PostCardLayout>

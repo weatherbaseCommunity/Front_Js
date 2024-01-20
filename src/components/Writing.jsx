@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor, EditorProps } from '@toast-ui/react-editor';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import TagInput from "./TagInput";
 
 import MarkDownEditor from "./MarkDownEditor";
+import usePosting from "../services/post/usePosting";
 
 const WritingLayout = styled.div`
   width: 100%;
@@ -12,10 +13,10 @@ const WritingLayout = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const TitleWrap = styled.div`
   display: flex;
   position: relative;
+  margin-bottom: 0.75rem;
   input {
     width: 99%;
     border: none;
@@ -78,35 +79,67 @@ const EditorWrap = styled.div`
 
 export default function Writing() {
   const editorRef = useRef();
-  const inputRef = useRef();
+  const navigate = useNavigate();
+  const {postingData} = usePosting();
+  const [title, setTitle] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState('');
+  const [inputData, setInputData] = useState({
+    title: "title",
+    content: "content",
+    hashTag: [],
+    gradation: "gradation",
+    season: "season",
+    weather: "weather",
+    country: "country",
+    timeZone: "timeZone",
+  });
+  const accessUserData = useSelector((state) => {return state.userAccessInfo});
+
+  const handlePost = () => {
+    setInputData({
+      title: title,
+      content: editorRef.current.getInstance().getMarkdown(),
+      hashTag: tags,
+      gradation: accessUserData.gradation,
+      season: accessUserData.season,
+      weather: accessUserData.weather,
+      country: accessUserData.country,
+      timeZone: accessUserData.timezone,
+    });
+  }
+
+  
+
+  const changeTags = (value) => {
+    setTags(value);
+  }
+  const changeTag = (value) => {
+    setTag(value);
+  }
 
   const testfunc = () => {
-    const title = inputRef.current.value;
     const htmlcon = editorRef.current.getInstance().getHTML();
     const mkdcon = editorRef.current.getInstance().getMarkdown();
-
-    console.log(title);
-    console.log(htmlcon);
-    console.log("==================");
-    console.log(mkdcon);
   }
 
-  const navigate = useNavigate();
-  const moveToHome = () => {
-    navigate("/");
-  }
+  useEffect(() => {
+    postingData(inputData);
+  }, [inputData])
+
   
   return (
     <WritingLayout>
       <div>
         <TitleWrap>
-          <input type="text" required ref={inputRef}/>
+          <input required type="text" onChange={(e) => setTitle(e.target.value)}/>
           <label>제목</label>
-          <ButtonStyle onClick={testfunc}>저장</ButtonStyle>
-          <ButtonStyle onClick={moveToHome}>돌아가기</ButtonStyle>
+          <ButtonStyle onClick={()=>handlePost()}>저장</ButtonStyle>
+          <ButtonStyle onClick={()=>navigate('/')}>돌아가기</ButtonStyle>
         </TitleWrap>
+        <TagInput tag={tag} tags={tags} changeTag={changeTag} changeTags={changeTags}/>
         <EditorWrap>
-          <MarkDownEditor content="입력하시오" editorRef={editorRef}></MarkDownEditor>
+          <MarkDownEditor content="" editorRef={editorRef}></MarkDownEditor>
         </EditorWrap>
       </div>
     </WritingLayout>

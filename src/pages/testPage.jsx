@@ -1,32 +1,21 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import UserAuth from "../components/auth/userAuth";
+import ServerAxios from "../components/utils/ServerAxios";
+import useAllPostList from "../services/post/useAllPostList";
 
 export default function TestPage() {
-  const sessionAuth = window.sessionStorage.getItem("auth")
-  const [auth, setAuth] = useState(sessionAuth || "");
 
-  useEffect(() => {
-    window.sessionStorage.setItem("auth", auth);
-  },[auth]);
-
-  const testHandle = (e) => {
-    setAuth(e.target.value);
+  const {data, loading, error} = useAllPostList();
+  if (loading) {
+    return <p>Loading...</p>;
   }
-  const buttonHandle = () => {
-    let temp = {
-      name: "jo", 
-      age: 27
-    }
-    let json = JSON.stringify(temp);
-    console.log(json);
-    console.log(JSON.parse(json));
-    window.sessionStorage.setItem("data", json);
+  if (error) {
+    return <p>Error : {error.message}</p>;
   }
-
-  return(
-    <>
-      <input type="text" onChange={testHandle}/>
-      <button onClick={buttonHandle}>test</button>
-    </>
+  return (
+    <div>
+      <h1>Data API TEST</h1>
+      <pre>{data && data[0].title}</pre>
+    </div>
   )
 }

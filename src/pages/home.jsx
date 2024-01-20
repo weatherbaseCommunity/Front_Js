@@ -5,19 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 
 // 컴포넌트
-import './home.scss';
+import '../style/home.scss';
 import Header from '../components/Header';
 import Loading from "../components/Loading";
 import MainClock from "../components/MainClock";
 import PostCard from "../components/PostCard";
 import Search from "../components/Search";
+import useAuth from "../services/auth/useAuth";
 
 // redux action
 import { setGradation, setWeather, updateInfo } from "../redux/userAccessInfoSlice";
 import { useNavigate } from "react-router-dom";
 
-// 기능함수
-import { userAuth } from "../components/auth/userAuth"
+// custom hook
+import useAllPostList from "../services/post/useAllPostList";
 
 const HomeLayout = styled.div`
   width: 100%;
@@ -49,6 +50,7 @@ export default function Home() {
   const accessUserData = useSelector((state) => {return state.userAccessInfo});
   const [isLoading, setLoading] = useState(false);
   const scollRef = useRef();
+
 
   // 위치 데이터 호출API
   const getlocationData = async () => {
@@ -112,6 +114,7 @@ export default function Home() {
       "linear-gradient(0deg, rgb(251, 249, 250) 0%, 21.3826%, rgb(163, 155, 212) 42.7653%, 64.869%, rgb(128, 130, 191) 100%)"
     ]
   }
+
   
   useEffect(()=>{
     mainAPI();
@@ -119,8 +122,13 @@ export default function Home() {
 
   useEffect(() => {
     setGradationData();
-    console.log(accessUserData);
   },[accessUserData])
+  const {isSignIn} = useAuth();
+
+  const {postData, postLoading, error} = useAllPostList();
+  if (postLoading) {
+    return <Loading></Loading>;
+  }
 
   if (isLoading) {
     return (
@@ -140,16 +148,14 @@ export default function Home() {
         <div className="homeContentWrap" ref={scollRef}>
           <div className="homeTabWrap">
             <Search></Search>
-            <button onClick={()=>{navigate('/writing')}}>글쓰기</button>
+            {isSignIn && <button onClick={()=>{navigate('/writing')}}>글 쓰기</button>}
           </div>
           <div className="postCardBoardLayout">
             <div className="postCardBoardWrap">
               <div className="postCardBoard">
-                <PostCard></PostCard>
-                <PostCard></PostCard>
-                <PostCard></PostCard>
-                <PostCard></PostCard>
-                <PostCard></PostCard>
+                {postData && postData.map((data, index) => (
+                  <PostCard cardData={data} key={index}></PostCard>
+                ))}
               </div>
             </div>
           </div>

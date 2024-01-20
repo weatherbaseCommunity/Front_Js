@@ -133,6 +133,7 @@ export default function SignInPage() {
     temp.password = e.target.value;
     setAuthData(temp);
   }
+
   const commonSignIn = () => {
     axios.post("/api/auth/signin", {
       email: authData.email,
@@ -164,7 +165,7 @@ export default function SignInPage() {
               </div>
               <div style={{height:'56px'}}>
                 <InputStyle 
-                  type="text"
+                  type="password"
                   placeholder="PW를 입력하세요"
                   onChange={handlePWInput}
                 />
