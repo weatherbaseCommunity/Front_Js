@@ -3,35 +3,34 @@ import "../style/postingDetail.scss"
 
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
-import useGetPostById from "../services/post/useGetPostById";
 import { useSelector } from "react-redux";
-import usePressLike from "../services/post/usePressLike";
+
+// 커스텀 훅
+import useGetPostById from "../services/post/useGetPostById";
 import useReplyComment from "../services/post/useReplyComment";
+
+// 컴포넌트
 import PostingCommentItem from "./PostingCommentItem";
+import LikeUp from "./LikeUp";
+import SideBarItem from "./SideBarItem";
 
 export default function PostingDetail() {
   const {id} = useParams();
   const {postData, postLoading, error} = useGetPostById(id);
+  const {ReplyComment} = useReplyComment();
   const replyButtonRef = useRef();
   const replyTextRef = useRef();
 
-  // console.log(postData);
-
-  const {pressLike} = usePressLike();
-  const {ReplyComment} = useReplyComment();
-
+  console.log(postData);
   
-  
+
   const timeZone = ["Morning", "Afternoon", "Night", "Dawn"];
-  let createdDate = (postData.createdTime||'').split('-', 3);
-  createdDate[2] = (createdDate[2]||'').substr(0, 2);
-
-  const likeButtonOnClick = () => {
-    pressLike(id);
-  }
+  let createdDate = (postData.createdTime || '').split('T', 2);
+  createdDate[1] = (createdDate[1] || '').slice(0, 8);
 
   const replyTextButtonOnClick = () => {
     ReplyComment(replyTextRef.current.value, id);
+    window.location.reload();
   }
 
   if (postLoading === true) {
@@ -60,8 +59,12 @@ export default function PostingDetail() {
                   </span>
                 </div>
                 <div className="posting_info_description">
-                  <div>{`${postData.weather} · ${postData.season} · ${timeZone[postData.timeZone]} · ${postData.country}`}</div>
-                  <div>{`만든 날짜: ${createdDate[0]}년 ${createdDate[1]}월 ${createdDate[2]}일`}</div>
+                  <div>{`${postData.season} · ${timeZone[postData.timeZone]} · ${postData.weather}`}</div>
+                  <div className="posting_tag_wrap">
+                    {postData.hashTag && postData.hashTag.map((tag, index) => (
+                      <div className="posting_tag_elements" key={index}>{tag}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -69,6 +72,9 @@ export default function PostingDetail() {
               <div className="posting_head">
                 <div className="posting_head_title">
                   {postData.title}
+                  <div className="posting_head_title_right">
+                    <time>{`${createdDate[0]} ${createdDate[1]}`}</time>
+                  </div>
                 </div>
               </div>
               <div className="posting_body">
@@ -77,16 +83,7 @@ export default function PostingDetail() {
                 </div>
               </div>
               <div className="posting_like_area">
-                <div className="like_up">
-                  <button className="like_button" onClick={() => likeButtonOnClick()}>
-                    {`좋아요! `}
-                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                      <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                    </svg>
-                    <br/> 
-                    {`(${postData.likeCnt})`}
-                  </button>
-                </div>
+                <LikeUp likeCount={postData.likeCnt} id={id}></LikeUp>
               </div>
               <div className="posting_comment">
                 <div className="posting_comment_title">
@@ -128,13 +125,8 @@ export default function PostingDetail() {
           </div>
         </article>
         <aside className="postingDetail_sidebar_right">
-          <div className="sidebar_item">
-            <div className="item_title">
-              <p>사이트바 아이템 제목</p>
-            </div>
-            <div className="item_list"></div>
-          </div>
-          <div className="sidebar_item"></div>
+          <SideBarItem title={'추천 게시글'}></SideBarItem>
+          <SideBarItem title={'신규 게시글'}></SideBarItem>
         </aside>
       </div>
     </div>

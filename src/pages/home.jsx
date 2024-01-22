@@ -14,11 +14,13 @@ import Search from "../components/Search";
 import useAuth from "../services/auth/useAuth";
 
 // redux action
-import { setGradation, setWeather, updateInfo } from "../redux/userAccessInfoSlice";
+import { setGradation, setWeather, setLocation } from "../redux/userAccessInfoSlice";
 import { useNavigate } from "react-router-dom";
 
 // custom hook
 import useAllPostList from "../services/post/useAllPostList";
+import useCurrentLocation from "../services/useCurrentLocation";
+import useCurrentWeather from "../services/useCurrentWeather";
 
 const HomeLayout = styled.div`
   width: 100%;
@@ -48,44 +50,8 @@ export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const accessUserData = useSelector((state) => {return state.userAccessInfo});
-  const [isLoading, setLoading] = useState(false);
   const scollRef = useRef();
 
-
-  // 위치 데이터 호출API
-  const getlocationData = async () => {
-    try {
-      const response = await axios.get('https://geolocation-db.com/json/');
-      dispatch(updateInfo(response.data));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  // 위치 기반 날씨 데이터 호출API
-  const getWeatherData = async () => {
-    try {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${accessUserData.latitude}&lon=${accessUserData.longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}`);
-      dispatch(setWeather(response.data.weather[0].main));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  
-  const setGradationData = () => {
-    dispatch(setGradation(homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]))
-  }
-
-  const mainAPI = async () => {
-    setLoading(true); 
-    await getlocationData();
-    await getWeatherData();
-    setLoading(false);
-  }
-  
-  const arrowClick = () => {
-    scollRef.current.scrollIntoView({behavior: "smooth"});
-  }
-  
   const homeLayoutBackgroundData = {
     // 배열안의 순서는 오전 오후 밤 새벽
     Spring : [
@@ -115,28 +81,30 @@ export default function Home() {
     ]
   }
 
-  
-  useEffect(()=>{
-    mainAPI();
-  },[]);
+  // 위치에 따른 날씨를 찾아주는 함수를 가진 커스텀 훅
+  const {weather, weatherError} = useCurrentWeather();
+
+  // 로그인 상태를 알려주는 커스텀 훅
+  const {isSignIn} = useAuth();
+
+  const arrowClick = () => {
+    scollRef.current.scrollIntoView({behavior: "smooth"});
+  }
 
   useEffect(() => {
-    setGradationData();
+    dispatch(setGradation(homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]))
+    dispatch(setWeather(weather));
   },[accessUserData])
-  const {isSignIn} = useAuth();
+  
 
   const {postData, postLoading, error} = useAllPostList();
   if (postLoading) {
     return <Loading></Loading>;
   }
 
-  if (isLoading) {
-    return (
-    <Loading></Loading>
-  )
-}
+
   return (
-    <div className="homeContainer">
+    <div className="homeContainer" onClick={()=> {console.log(accessUserData)}}>
       <Header/>
       <HomeLayout color={homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]}>
         <div className="homeLayout_mainClock">

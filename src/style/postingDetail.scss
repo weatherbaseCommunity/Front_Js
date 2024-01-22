@@ -2,7 +2,6 @@
   box-sizing: border-box;
 }
 .postingDetail_root_container {
-  background: grey;
   margin: 0 auto;
 }
 .postingDetail_content_wrapper {
@@ -52,7 +51,22 @@
     }
   }
   .posting_info_right {
-
+    .posting_tag_wrap {
+      display: flex;
+      .posting_tag_elements {
+        font-size: 1rem;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        height: 2rem;
+        border-radius: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background: #F8F9FA;
+        color: black;
+        margin-right: 0.75rem;
+      }
+    }
   }
 }
 
@@ -66,6 +80,14 @@
     border-bottom: 1px solid;
     border-color: #bbb;
     background-color: #eee;
+    .posting_head_title_right {
+      float: right;
+      display: flex;
+      flex-wrap: wrap;
+      time {
+        color: #bbb;
+      }
+    }
   }
 }
 .posting_body {
@@ -81,50 +103,11 @@
   margin: 1rem 0 2rem;
   text-align: center;
   clear: both;
-  .like_up {
-    margin-top: 0em;
-    margin-right: 5px;
-    display: inline-block;
-    .like_button {
-      display: inline-block;
-      text-align: center;
-      border: 1px solid;
-      border-color: #bbb;
-      background-color: #fff;
-      color: #000;
-      border-radius: 5px;
-      min-width: 4rem;
-      padding: 0.5rem 1.3rem;
-      position: relative;
-      &:hover {
-        border-color: #1671bc;
-        text-decoration: none;
-      }
-    }
-  }
 }
 
 .postingDetail_sidebar_right {
   position: relative;
   padding: 0.75rem 0.75rem 0.75rem 0;
-  .sidebar_item {
-    background-color: #fff;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    border: 1px solid;
-    border-color: #bbb;
-    border-radius: 6px;
-    .item_title {
-      margin-bottom: 0.6rem;
-      font-size: 1.3rem;
-      p {
-
-      }
-    }
-    .item_list {
-
-    }
-  }
 }
 
 .posting_comment {
