@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from "react";
-import usePressLike from "../services/post/usePressLike";
-import '../style/likeUp.scss'
+import usePressLike from "../../services/post/usePressLike";
+import '../../style/likeUp.scss'
 
 export default function LikeUp({likeCount, id}) {
   const {pressLike} = usePressLike();

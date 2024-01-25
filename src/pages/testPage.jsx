@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ServerAxios from "../components/utils/ServerAxios";
+
 import useAllPostList from "../services/post/useAllPostList";
 
 export default function TestPage() {

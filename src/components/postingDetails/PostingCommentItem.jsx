@@ -1,5 +1,5 @@
 import React from "react";
-import '../style/postingCommentItem.scss'
+import '../../style/postingCommentItem.scss'
 
 export default function PostingCommentItem({commentData}) {
 

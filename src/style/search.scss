@@ -1,0 +1,19 @@
+.search_area {
+  margin-top: 2rem;
+  display: flex;
+  .search_select_type {
+    margin-right: 0.5rem;
+  }
+  .search_input {
+    border: 0;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    transition: all 0.4s ease;
+  }
+  .search_button {
+    width: 5rem;
+    display: block;
+  }
+}

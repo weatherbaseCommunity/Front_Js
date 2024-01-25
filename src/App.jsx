@@ -12,7 +12,7 @@ import KakaoRedirect from './services/auth/authkakao';
 import PostingDetail from './components/PostingDetail';
 
 import TestPage from './pages/testPage';
-import MyPage from './pages/myPage';
+import MyPage from './pages/MyPage';
 
 const tempTheme = {
   firstColor: 'palevioletred',

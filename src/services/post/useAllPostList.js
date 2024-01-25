@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ServerAxios from "../../components/utils/ServerAxios";
 import axios from "axios";
 
 

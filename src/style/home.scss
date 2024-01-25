@@ -8,21 +8,19 @@
 }
 
 .homeTabWrap {
-  padding-top: 20px;
+  height: 80px;
+  margin-top: 2rem;
+  position: relative;
   display: flex;
   justify-content: center;
-  button {
-    outline: none;
-    border: 2px solid #aaa;
-    font-weight: 500;
-    // background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    // color: #aaa;
-    &:hover {
-      background: transparent;
-      color: #000;
-      border: 2px solid #000;
+  .tab_content {
+    display: flex;
+    justify-content: center;
+    width: 1400px;
+    .tab_writing_button {
+      position: absolute;
+      top: 1rem;
+      right: 3rem;
     }
   }
 }
@@ -51,6 +49,6 @@
   flex-wrap: wrap;
 }
 .homeContentWrap {
-  margin-top: 600px;
+  margin-top: 700px;
   display: block;
 }

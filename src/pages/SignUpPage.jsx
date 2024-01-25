@@ -114,7 +114,7 @@ export default function SignUpPage() {
   }
 
   const commonSignUp = () => {
-    axios.post("/api/auth/signup", {
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
       email: signUpData.email,
       password: signUpData.password
     }).then((result) => {
@@ -153,7 +153,7 @@ export default function SignUpPage() {
         </ul>
         <p>
           {`이미 가입하셨나요? `}
-          <span onClick={() => navigate('/login')}>로그인하기</span>
+          <span onClick={() => navigate('/signin')}>로그인하기</span>
         </p>
       </ContentWrap>
     </div>

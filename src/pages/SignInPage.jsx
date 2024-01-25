@@ -135,7 +135,7 @@ export default function SignInPage() {
   }
 
   const commonSignIn = () => {
-    axios.post("/api/auth/signin", {
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/signin`, {
       email: authData.email,
       password: authData.password
     }).then((result) => {

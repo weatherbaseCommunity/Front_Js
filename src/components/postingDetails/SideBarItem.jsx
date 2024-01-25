@@ -1,5 +1,5 @@
 import React from "react"
-import '../style/sideBarItem.scss'
+import '../../style/sideBarItem.scss'
 
 export default function SideBarItem({title}) {
 

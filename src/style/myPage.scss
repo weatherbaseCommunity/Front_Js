@@ -1,0 +1,183 @@
+.myPage_root_container {
+  margin: 0 auto;
+}
+.myPage_content_wrapper {
+  padding-top: 4.6rem;
+  display: flex;
+  margin: 0 auto;
+  max-width: 1300px;
+}
+.myPage_article {
+  background-color: #fff;
+  padding: 1rem;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+.myPage_user_info {
+  display: flex;
+  padding: 1rem;
+  margin: -1rem -1rem 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  .myPage_user_info_left {
+    margin-right: 1rem;
+    .myPage_user_info_icon {
+      outline: 0;
+      color: inherit;
+      background-color: transparent;
+      img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 100%;
+        vertical-align: middle;
+        border-style: none;
+      }
+    }
+
+  }
+  .myPage_user_info_right {
+    color: #212529;
+    font-weight: bold;
+    .myPage_user_info_nickname_area {
+      display: flex;
+      .user_info_nickname {
+        margin-right: 1rem;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #ddd;
+      }
+      .user_info_nicknameChange_button {
+        font-weight: bold;
+        background-color: transparent;
+        border: none;
+        color : #ddd;
+        cursor: pointer;
+        &:hover {
+          color : skyblue;
+        }
+      }
+    }
+  }
+}
+
+.myPage_content {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.myPage_content_category {
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0 0 2px;
+  white-space: nowrap;
+  overflow-x: auto;
+  align-items: stretch;
+  .category_item {
+    display: flex;
+    span {
+      color: #666;
+      list-style: none;
+      border-color: #bbb;
+      border-style: solid;
+      border-width: 0 0 1px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      padding: 0.4rem 0.55rem;
+    }
+    .active {
+      color: #000;
+      font-weight: 600;
+      border-width: 1px 1px 0;
+    }
+    ::before {
+      content: "";
+      width: 0.3rem;
+      border-color: var(--color-bd-outer);
+      border-style: solid;
+      border-width: 0 0 1px;
+    }
+    ::after {
+      content: "";
+      width: 0.3rem;
+      border-color: var(--color-bd-outer);
+      border-style: solid;
+      border-width: 0 0 1px;
+    }
+  }
+}
+.myPage_content_list_table {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: var(--color-bd-outer);
+  font-size: .95rem;
+  .column_head {
+    border-bottom: 2px solid;
+    border-color: var(--color-bd-inner);
+    font-weight: 700;
+  }
+  .content_column {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid;
+    border-color: var(--color-bd-inner);
+    position: relative;
+    align-items: center;
+    height: 2.4rem;
+  }
+  .column_inner {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    .column_inner_left {
+      align-items: center;
+      display: flex;
+      flex: 1;
+    }
+    .column_inner_right {
+      align-items: center;
+      display: flex;
+      color: #bbb;
+    }
+    .column {
+      display: inline-block;
+      width: 100px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .col_id {
+      width: 6rem;
+    }
+    .col_title {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      text-align: left;
+      overflow: hidden;
+      word-break: break-all;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .col_time {
+      margin-right: 1rem;
+      width: 6rem;
+    }
+    .col_like {
+      width: 3rem;
+    }
+  }
+}
+
+
+
+.containe_fluid {
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: #bbb;
+}

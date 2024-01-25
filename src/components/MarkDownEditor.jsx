@@ -3,7 +3,7 @@ import styled from "styled-components";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const MarkDownEditor = ({content, editorRef}) => {
+const MarkDownEditor = ({content, editorRef, editorOnChange}) => {
   return (
     <>
       <Editor
@@ -14,6 +14,7 @@ const MarkDownEditor = ({content, editorRef}) => {
         initialEditType="markdown"
         useCommandShortcut={false}
         language="ko"
+        onChange={() => editorOnChange()}
       />
     </>
   )

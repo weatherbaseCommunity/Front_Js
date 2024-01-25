@@ -1,16 +1,15 @@
-import useConnectingAxios from "../../components/utils/useConnectingAxios";
 import useAuth from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from '../../apis/utils/instance';
 
 export default function useReplyComment() {
-  const connectingAxios = useConnectingAxios();
   const navigate = useNavigate();
   const {isSignIn} = useAuth();
   const apiUrl = '/comments/save';
   
   const ReplyComment = async (replyData, boardId) => {
     if (isSignIn) {
-      await connectingAxios.post(apiUrl, {
+      await axios.post(apiUrl, {
         content: replyData,
         boardId: boardId,
         commentId: null,

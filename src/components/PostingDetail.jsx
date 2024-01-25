@@ -1,37 +1,29 @@
 import React, { useState, useRef } from "react";
-import "../style/postingDetail.scss"
-
-import Header from "../components/Header";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+
+// 스타일
+import "../style/postingDetail.scss"
 
 // 커스텀 훅
 import useGetPostById from "../services/post/useGetPostById";
-import useReplyComment from "../services/post/useReplyComment";
 
 // 컴포넌트
-import PostingCommentItem from "./PostingCommentItem";
-import LikeUp from "./LikeUp";
-import SideBarItem from "./SideBarItem";
+import Header from "../components/Header";
+import PostingCommentItem from "./postingDetails/PostingCommentItem";
+import LikeUp from "./postingDetails/LikeUp";
+import SideBarItem from "./postingDetails/SideBarItem";
+import ReplyCommentForm from "./postingDetails/ReplyCommentForm";
 
 export default function PostingDetail() {
   const {id} = useParams();
   const {postData, postLoading, error} = useGetPostById(id);
-  const {ReplyComment} = useReplyComment();
-  const replyButtonRef = useRef();
-  const replyTextRef = useRef();
 
-  console.log(postData);
+  // console.log(postData);
   
-
   const timeZone = ["Morning", "Afternoon", "Night", "Dawn"];
   let createdDate = (postData.createdTime || '').split('T', 2);
   createdDate[1] = (createdDate[1] || '').slice(0, 8);
 
-  const replyTextButtonOnClick = () => {
-    ReplyComment(replyTextRef.current.value, id);
-    window.location.reload();
-  }
 
   if (postLoading === true) {
     return (
@@ -92,34 +84,11 @@ export default function PostingDetail() {
                 <div className="posting_comment_list_area">
                   <div className="posting_comment_wrapper">
                     {postData.commentList && postData.commentList.map((data, index) => (
-                      <PostingCommentItem commentData={data}></PostingCommentItem>
+                      <PostingCommentItem commentData={data} key={index}></PostingCommentItem>
                     ))}
                   </div>
                 </div>
-                <form className="posting_comment_form" onSubmit={(e) => {e.preventDefault();}}>
-                  <div className="reply_form_container">
-                    <div className="reply_form_info">
-                      <div className="reply_user_info">
-                        <span>댓글 작성</span>
-                        <div className="reply_user_nickName">nickname</div>
-                      </div>
-                    </div>
-                    <div className="reply_form_textarea_wrapper">
-                      <textarea
-                        className="reply_form_text"
-                        ref={replyTextRef}
-                        name="content" 
-                        maxLength={8000} 
-                        tabIndex={102}
-                        placeholder="댓글을 입력하세요"
-                      >
-                      </textarea>
-                      <div className="reply_form_submit_button_wrapper" ref={replyButtonRef}>
-                        <button className="reply_form_submit_button" onClick={() => replyTextButtonOnClick()} type="submit" tabIndex={103}>작성</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
+                <ReplyCommentForm id={id}></ReplyCommentForm>
               </div>
             </div>
           </div>

@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import useConnectingAxios from "../../components/utils/useConnectingAxios";
 import useAuth from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import axios from '../../apis/utils/instance';
 
 export default function usePressLike() {
 
-  const apiUrl = `http://localhost:8080/board/increaseLike`;
-  const connectingAxios = useConnectingAxios();
+  const apiUrl = `/board/increaseLike`;
   const {isSignIn} = useAuth();
   const navigate = useNavigate();
 
   const pressLike = async (boardId) => {
     if (isSignIn) {
-      await connectingAxios.post(apiUrl, boardId)
+      await axios.post(apiUrl, boardId)
       .then((result) => {
         console.log(result);
       }).catch((error) => {

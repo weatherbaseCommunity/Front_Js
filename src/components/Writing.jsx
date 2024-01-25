@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,9 @@ import TagInput from "./TagInput";
 
 import MarkDownEditor from "./MarkDownEditor";
 import usePosting from "../services/post/usePosting";
+
+
+import postPosting from "../apis/api/postPosting";
 
 const WritingLayout = styled.div`
   width: 100%;
@@ -80,26 +83,24 @@ const EditorWrap = styled.div`
 export default function Writing() {
   const editorRef = useRef();
   const navigate = useNavigate();
-  const {postingData} = usePosting();
+  // const {postingData} = usePosting();
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState('');
-  const [inputData, setInputData] = useState({
-    title: "title",
-    content: "content",
-    hashTag: [],
-    gradation: "gradation",
-    season: "season",
-    weather: "weather",
-    country: "country",
-    timeZone: "timeZone",
-  });
+  const [content, setContent] = useState('');
+
+  const [postingData, setPostingData] = useState({});
   const accessUserData = useSelector((state) => {return state.userAccessInfo});
 
   const handlePost = () => {
-    setInputData({
+    postPosting(postingData, navigate);
+  }
+
+  useEffect(() => {
+    console.log("포스팅 값 최신화 중");
+    setPostingData({
       title: title,
-      content: editorRef.current.getInstance().getMarkdown(),
+      content: content,
       hashTag: tags,
       gradation: accessUserData.gradation,
       season: accessUserData.season,
@@ -107,9 +108,7 @@ export default function Writing() {
       country: accessUserData.country,
       timeZone: accessUserData.timezone,
     });
-  }
-
-  
+  }, [title, tag, tags, content])
 
   const changeTags = (value) => {
     setTags(value);
@@ -118,15 +117,14 @@ export default function Writing() {
     setTag(value);
   }
 
+  const editorOnChange = () => {
+    setContent(editorRef.current.getInstance().getMarkdown());
+  }
+
   const testfunc = () => {
     const htmlcon = editorRef.current.getInstance().getHTML();
     const mkdcon = editorRef.current.getInstance().getMarkdown();
   }
-
-  useEffect(() => {
-    postingData(inputData);
-  }, [inputData])
-
   
   return (
     <WritingLayout>
@@ -139,7 +137,7 @@ export default function Writing() {
         </TitleWrap>
         <TagInput tag={tag} tags={tags} changeTag={changeTag} changeTags={changeTags}/>
         <EditorWrap>
-          <MarkDownEditor content="" editorRef={editorRef}></MarkDownEditor>
+          <MarkDownEditor content="여기에 작성하세요" editorRef={editorRef} editorOnChange={editorOnChange}></MarkDownEditor>
         </EditorWrap>
       </div>
     </WritingLayout>

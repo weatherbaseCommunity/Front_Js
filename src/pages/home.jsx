@@ -104,7 +104,7 @@ export default function Home() {
 
 
   return (
-    <div className="homeContainer" onClick={()=> {console.log(accessUserData)}}>
+    <div className="homeContainer">
       <Header/>
       <HomeLayout color={homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]}>
         <div className="homeLayout_mainClock">
@@ -113,10 +113,14 @@ export default function Home() {
         <HomeLayout_Arrow onClick={()=>{arrowClick()}}>
           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
         </HomeLayout_Arrow>
-        <div className="homeContentWrap" ref={scollRef}>
-          <div className="homeTabWrap">
-            <Search></Search>
-            {isSignIn && <button onClick={()=>{navigate('/writing')}}>글 쓰기</button>}
+        <div className="homeContentWrap" >
+          <div className="homeTabWrap" ref={scollRef}>
+            <div className="tab_content">
+              {isSignIn && <button className="tab_writing_button" onClick={()=>{navigate('/writing')}}>글 쓰기</button>}
+              <div className="tab_menu">
+                <Search></Search>
+              </div>
+            </div>
           </div>
           <div className="postCardBoardLayout">
             <div className="postCardBoardWrap">
