@@ -98,8 +98,8 @@ const PostCardLikes = styled.div`
 
 export default function PostCard(props) {
   const {cardData} = props;
-  let createdDate = cardData.createdTime.split('-', 3);
-  createdDate[2] = createdDate[2].substr(0,2);
+  let createdDate = cardData && cardData.createdTime.split('-', 3);
+  createdDate[2] = createdDate && createdDate[2].substr(0,2);
   const timeZone = ["morning", "afternoon", "night", "dawn"];
   console.log();
 

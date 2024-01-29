@@ -10,9 +10,13 @@ export default function usePosting() {
 
   const [data, setData] = useState(null);
   const postingData = async (requestData) => {
+    const response = await axios.post(apiUrl, requestData)
+    .then((result) => {
+      setData(result.data);
+    })
     try {
       if(axios) {
-        const response = await axios.post(apiUrl, requestData)
+        const response = await axios.post()
         .then((result) => {
           navigate('/');
           return result

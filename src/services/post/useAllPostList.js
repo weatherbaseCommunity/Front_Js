@@ -4,27 +4,27 @@ import axios from "axios";
 
 export default function useAllPostList() {
 
-  const [postData, setPostData] = useState(null);
-  const [postLoading, setPostLoading] = useState(null);
+  const [allPostData, setAllPostData] = useState(null);
+  const [allPostLoading, setAllPostLoading] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setPostLoading(true);
+        setAllPostLoading(true);
         const response = await axios.get(`http://localhost:8080/board/AllBoards`);
-        setPostData(response.data);
+        setAllPostData(response.data);
       } catch (error) {
         setError(error);
       } finally {
-        setPostLoading(false);
+        setAllPostLoading(false);
       }
     };
     fetchData();
   },[])
 
   return {
-    postData, postLoading, error
+    allPostData, allPostLoading, error
   }
 }
   

@@ -14,7 +14,7 @@ const MarkDownEditor = ({content, editorRef, editorOnChange}) => {
         initialEditType="markdown"
         useCommandShortcut={false}
         language="ko"
-        onChange={() => editorOnChange()}
+        onChange={(e) => editorOnChange()}
       />
     </>
   )

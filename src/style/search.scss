@@ -2,6 +2,7 @@
   margin-top: 2rem;
   display: flex;
   .search_select_type {
+    border: 0;
     margin-right: 0.5rem;
   }
   .search_input {
@@ -10,10 +11,22 @@
     background: white;
     border-radius: 3px;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    margin-right: 0.5rem;
     transition: all 0.4s ease;
+    &:focus {
+      padding: 15px 25px;
+    }
   }
   .search_button {
+    background: white;
+    border: 0;
     width: 5rem;
     display: block;
+    cursor: pointer;
+    border-radius: 3px;
+    color: #bbb;
+    &:hover {
+      color: #000;
+    }
   }
 }

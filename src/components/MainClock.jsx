@@ -30,6 +30,7 @@ export default function MainClock() {
     }, 1000);
     return (() => clearInterval(interval))
   }, []);
+  
   // luxon 라이브러리를 통해 날짜를 받아와 저장해준다. 형식과 데이터의 형태를 지정할 수 있다.
   const [date, setDate] = useState(DateTime.now().setLocale('en-us').toLocaleString(DateTime.DATE_HUGE));
 
@@ -70,14 +71,13 @@ export default function MainClock() {
 
   return (
     <ClockLayout>
-      <AnimationWrap className="12"></AnimationWrap>
+      {/* <AnimationWrap className="12"></AnimationWrap> */}
       <div>
         {time}
       </div>
       <div style={{fontSize:'30px'}}>
         {date}
       </div>
-      
     </ClockLayout>
   )
 }

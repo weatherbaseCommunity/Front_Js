@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import useAuth from "../services/auth/useAuth";
 import useSignOut from "../services/auth/useSignOut";
+import useUserInfo from "../services/user/useUserInfo";
 
 const HeaderLayout = styled.div`
   width: 100%;
@@ -36,6 +37,10 @@ const LoginWrapper = styled.div`
       color: white;
       cursor: pointer;
     }
+  }
+  span {
+    margin: auto 0;
+    margin-right: 50px;
   }
 `
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // 스타일
@@ -17,6 +17,16 @@ import ReplyCommentForm from "./postingDetails/ReplyCommentForm";
 export default function PostingDetail() {
   const {id} = useParams();
   const {postData, postLoading, error} = useGetPostById(id);
+  
+  const [data, setData] = useState();
+  const updateData = (data) => {
+    setData(data);
+  }
+  useEffect(() => {
+    if(postData) {
+      setData(postData);
+    }
+  }, [postData]);
 
   // console.log(postData);
   
@@ -30,7 +40,6 @@ export default function PostingDetail() {
       <div>Loading...</div>
     )
   }
-  
   return (
     <div className="postingDetail_root_container" style={{backgroundImage:postData.gradation}}>
       <Header></Header>
@@ -47,13 +56,13 @@ export default function PostingDetail() {
                 <div className="posting_info_head" style={{color: '#868e96'}}>
                   by
                   <span style={{color: '#212529', fontWeight: "bold"}}>
-                    {` ${postData.nickname}`}
+                    {` ${data && data.nickname}`}
                   </span>
                 </div>
                 <div className="posting_info_description">
-                  <div>{`${postData.season} · ${timeZone[postData.timeZone]} · ${postData.weather}`}</div>
+                  <div>{`${data && data.season} · ${timeZone[data && data.timeZone]} · ${data && data.weather}`}</div>
                   <div className="posting_tag_wrap">
-                    {postData.hashTag && postData.hashTag.map((tag, index) => (
+                    {data && data.hashTag && data.hashTag.map((tag, index) => (
                       <div className="posting_tag_elements" key={index}>{tag}</div>
                     ))}
                   </div>
@@ -63,7 +72,7 @@ export default function PostingDetail() {
             <div className="postingDetail_posting_wrapper">
               <div className="posting_head">
                 <div className="posting_head_title">
-                  {postData.title}
+                  {data && data.title}
                   <div className="posting_head_title_right">
                     <time>{`${createdDate[0]} ${createdDate[1]}`}</time>
                   </div>
@@ -71,11 +80,11 @@ export default function PostingDetail() {
               </div>
               <div className="posting_body">
                 <div className="posting_body_content">
-                  {postData.content}
+                  {data && data.content}
                 </div>
               </div>
               <div className="posting_like_area">
-                <LikeUp likeCount={postData.likeCnt} id={id}></LikeUp>
+                <LikeUp likeCount={data && data.likeCnt} id={id}></LikeUp>
               </div>
               <div className="posting_comment">
                 <div className="posting_comment_title">
@@ -83,19 +92,18 @@ export default function PostingDetail() {
                 </div>
                 <div className="posting_comment_list_area">
                   <div className="posting_comment_wrapper">
-                    {postData.commentList && postData.commentList.map((data, index) => (
+                    {data && data.commentList && data.commentList.map((data, index) => (
                       <PostingCommentItem commentData={data} key={index}></PostingCommentItem>
                     ))}
                   </div>
                 </div>
-                <ReplyCommentForm id={id}></ReplyCommentForm>
+                <ReplyCommentForm id={id} updateData={updateData}></ReplyCommentForm>
               </div>
             </div>
           </div>
         </article>
         <aside className="postingDetail_sidebar_right">
-          <SideBarItem title={'추천 게시글'}></SideBarItem>
-          <SideBarItem title={'신규 게시글'}></SideBarItem>
+          <SideBarItem title={'추천 게시글'} tag={postData.hashTag}></SideBarItem>
         </aside>
       </div>
     </div>

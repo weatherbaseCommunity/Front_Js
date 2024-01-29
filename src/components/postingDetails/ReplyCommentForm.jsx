@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
 import '../../style/replyCommentForm.scss'
 import useReplyComment from "../../services/post/useReplyComment";
+import useGetPostById from "../../services/post/useGetPostById";
 
 
-export default function ReplyCommentForm({id}) {
+export default function ReplyCommentForm({id, updateData}) {
   const {ReplyComment} = useReplyComment();
   const replyTextRef = useRef();
 
-  const replyTextButtonOnClick = () => {
-    ReplyComment(replyTextRef.current.value, id);
-    window.location.reload();
+  const replyTextButtonOnClick = async () => {
+    await ReplyComment(replyTextRef.current.value, id);
   }
 
 

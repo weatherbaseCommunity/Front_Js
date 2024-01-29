@@ -16,12 +16,12 @@ export default function useCurrentWeather() {
     if (location) {
       axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}`)
       .then((result) => {
-        setWeather(result.data.weather[0].main);
+        setWeather(result.data);
       }).catch((error) => {
         setWeatherError(error);
       })
     }
-  })
+  }, [])
 
   return {
     weather,

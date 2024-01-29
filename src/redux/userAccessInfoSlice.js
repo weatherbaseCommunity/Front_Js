@@ -3,19 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userAccessInfoSlice = createSlice({
   name: 'userAccessInfo',
   initialState: {
-    weather  : "",
+    weather  : "weather",
+    country  : "country",
     season   : "Spring", // 계절
     timezone : 0,   // 시간대(오전 오후 밤 새벽)
     gradation: ""
   },
   reducers: {
-    initialization(state) {
-      state.weather   = "";
-      state.season    = "";
-      state.timezone  = "";
-      state.gradation = "";
-    },
     setWeather(state, action) {
+      state.weather = action.payload;
+    },
+    setCountry(state, action) {
       state.weather = action.payload;
     },
     setSeason(state, action) {
@@ -30,5 +28,5 @@ export const userAccessInfoSlice = createSlice({
   }
 })
 
-export const { initialization, setWeather, setSeason, setTimezone, setGradation } = userAccessInfoSlice.actions
+export const { setWeather, setCountry, setSeason, setTimezone, setGradation } = userAccessInfoSlice.actions
 export default userAccessInfoSlice.reducer

@@ -1,8 +1,8 @@
 // 라이브러리
-import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 // 컴포넌트
 import '../style/home.scss';
@@ -14,13 +14,13 @@ import Search from "../components/Search";
 import useAuth from "../services/auth/useAuth";
 
 // redux action
-import { setGradation, setWeather, setLocation } from "../redux/userAccessInfoSlice";
-import { useNavigate } from "react-router-dom";
+import { setGradation, setWeather, setCountry } from "../redux/userAccessInfoSlice";
+
 
 // custom hook
 import useAllPostList from "../services/post/useAllPostList";
-import useCurrentLocation from "../services/useCurrentLocation";
 import useCurrentWeather from "../services/useCurrentWeather";
+
 
 const HomeLayout = styled.div`
   width: 100%;
@@ -52,6 +52,11 @@ export default function Home() {
   const accessUserData = useSelector((state) => {return state.userAccessInfo});
   const scollRef = useRef();
 
+  const [postingData, setPostingData] = useState([]);
+  const setSearchData = (value) => {
+    setPostingData(value);
+  }
+
   const homeLayoutBackgroundData = {
     // 배열안의 순서는 오전 오후 밤 새벽
     Spring : [
@@ -80,28 +85,37 @@ export default function Home() {
       "linear-gradient(0deg, rgb(251, 249, 250) 0%, 21.3826%, rgb(163, 155, 212) 42.7653%, 64.869%, rgb(128, 130, 191) 100%)"
     ]
   }
+  useEffect(() => {
+    dispatch(setGradation(homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]));
+  }, [accessUserData]);
+
 
   // 위치에 따른 날씨를 찾아주는 함수를 가진 커스텀 훅
   const {weather, weatherError} = useCurrentWeather();
+  useEffect(() => {
+    dispatch(setWeather(weather && weather.weather[0].main));
+    dispatch(setCountry(weather && weather.name));
+  }, [weather]);
 
   // 로그인 상태를 알려주는 커스텀 훅
   const {isSignIn} = useAuth();
+  // 전체 게시글 데이터를 가져오는 커스텀 훅
+  const {allPostData, allPostLoading, error} = useAllPostList();
+  useEffect(() => {
+    setPostingData(allPostData);
+  }, [allPostData]);
 
   const arrowClick = () => {
     scollRef.current.scrollIntoView({behavior: "smooth"});
   }
 
-  useEffect(() => {
-    dispatch(setGradation(homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]))
-    dispatch(setWeather(weather));
-  },[accessUserData])
-  
-
-  const {postData, postLoading, error} = useAllPostList();
-  if (postLoading) {
-    return <Loading></Loading>;
+  if (weatherError || error) {
+    console.log(weatherError || error);
   }
 
+  if (allPostLoading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <div className="homeContainer">
@@ -111,21 +125,21 @@ export default function Home() {
           <MainClock></MainClock>
         </div>
         <HomeLayout_Arrow onClick={()=>{arrowClick()}}>
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
+          <svg viewBox="0 0 24 24" widths={24} width="24" height="24" stroke="currentColor" strokeWidth={"1.5"} fill="none"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
         </HomeLayout_Arrow>
         <div className="homeContentWrap" >
           <div className="homeTabWrap" ref={scollRef}>
             <div className="tab_content">
               {isSignIn && <button className="tab_writing_button" onClick={()=>{navigate('/writing')}}>글 쓰기</button>}
               <div className="tab_menu">
-                <Search></Search>
+                <Search setSearchData={setSearchData}></Search>
               </div>
             </div>
           </div>
           <div className="postCardBoardLayout">
             <div className="postCardBoardWrap">
               <div className="postCardBoard">
-                {postData && postData.map((data, index) => (
+                {postingData && postingData.map((data, index) => (
                   <PostCard cardData={data} key={index}></PostCard>
                 ))}
               </div>
