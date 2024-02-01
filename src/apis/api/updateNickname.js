@@ -1,9 +1,9 @@
 import axios from '../utils/instance'
 
-const updateNickname = async (requestData) => {
+const updateNickname = async (nickname) => {
   const apiUrl = '/user/mypage/update'
 
-  await axios.post(apiUrl, requestData)
+  await axios.post(apiUrl, nickname)
   .then(() => {
     alert('닉네임 변경 성공');
     window.location.reload();
