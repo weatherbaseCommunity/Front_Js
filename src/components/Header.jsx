@@ -58,7 +58,7 @@ export default function Header() {
   return (
     <HeaderLayout>
       <LogoWrapper>
-        <span onClick={()=>navigate('/')}>DOV</span>
+        <span onClick={()=>navigate('/')}>DOW</span>
       </LogoWrapper>
       <LoginWrapper>
         { isLogin === true ? 
