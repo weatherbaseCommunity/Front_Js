@@ -16,11 +16,12 @@ import useAuth from "../services/auth/useAuth";
 // redux action
 import { setGradation, setWeather, setCountry } from "../redux/userAccessInfoSlice";
 
-
 // custom hook
 import useAllPostList from "../services/post/useAllPostList";
-import useCurrentWeather from "../services/useCurrentWeather";
+import useCurrentLocation from "../services/useCurrentLocation";
 
+// apis
+import getCurrentWeather from "../apis/api/getCurrentWeather";
 
 const HomeLayout = styled.div`
   width: 100%;
@@ -89,13 +90,18 @@ export default function Home() {
     dispatch(setGradation(homeLayoutBackgroundData[accessUserData.season][accessUserData.timezone]));
   }, [accessUserData]);
 
-
-  // 위치에 따른 날씨를 찾아주는 함수를 가진 커스텀 훅
-  const {weather, weatherError} = useCurrentWeather();
+  const geolocationOptions = {
+    enableHighAccuracy: true, // 높은 정확도 사용
+    timeout: 1000*60*1, //1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
+    maximumAge: 1000*3600*24 // 24hour
+  }
+  const { location, locationError } = useCurrentLocation(geolocationOptions);
   useEffect(() => {
-    dispatch(setWeather(weather && weather.weather[0].main));
-    dispatch(setCountry(weather && weather.name));
-  }, [weather]);
+    getCurrentWeather(location).then((result) => {
+      dispatch(setWeather(result && result.weather[0].main));
+      dispatch(setCountry(result && result.name));
+    })
+  }, [location]);
 
   // 로그인 상태를 알려주는 커스텀 훅
   const {isSignIn} = useAuth();
@@ -109,8 +115,8 @@ export default function Home() {
     scollRef.current.scrollIntoView({behavior: "smooth"});
   }
 
-  if (weatherError || error) {
-    console.log(weatherError || error);
+  if (error) {
+    console.log(error);
   }
 
   if (allPostLoading) {

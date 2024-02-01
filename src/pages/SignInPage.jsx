@@ -141,7 +141,7 @@ export default function SignInPage() {
     }).then((result) => {
       window.sessionStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
       window.sessionStorage.setItem("REFRESH_TOKEN", result.data.refreshToken);
-      navigate('/')
+      navigate('/');
     }).catch((error) => {
       console.log("실패");
       console.log(error);

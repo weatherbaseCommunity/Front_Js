@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import '../../style/replyCommentForm.scss'
 import useReplyComment from "../../services/post/useReplyComment";
 import useGetPostById from "../../services/post/useGetPostById";
+import getPostingById from "../../apis/api/getPostingById";
 
 
 export default function ReplyCommentForm({id, updateData}) {
@@ -9,7 +10,12 @@ export default function ReplyCommentForm({id, updateData}) {
   const replyTextRef = useRef();
 
   const replyTextButtonOnClick = async () => {
+    // 서버에 댓글 데이터 올려줌
     await ReplyComment(replyTextRef.current.value, id);
+    // 댓글이 올라간 데이터를 다시 불러옴
+    getPostingById(id).then((result) => {
+      updateData(result);
+    });
   }
 
 

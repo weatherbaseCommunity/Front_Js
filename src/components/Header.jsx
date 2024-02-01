@@ -48,6 +48,11 @@ export default function Header() {
   const navigate = useNavigate();
   // 로그인 상태 검증 커스텀 훅
   const {isSignIn} = useAuth();
+  const [isLogin, setIsLogin] = useState();
+
+  useEffect(() => {
+    setIsLogin(isSignIn);
+  }, [isSignIn]);
   // 로그아웃 하는 함수를 가진 커스텀 훅
   const {signOut} = useSignOut();
   return (
@@ -56,7 +61,7 @@ export default function Header() {
         <span onClick={()=>navigate('/')}>DOV</span>
       </LogoWrapper>
       <LoginWrapper>
-        { isSignIn === true ? 
+        { isLogin === true ? 
           <>
             <div onClick={()=>navigate('/mypage')}>My Page</div>
             <div onClick={()=>signOut()}>Log Out</div>

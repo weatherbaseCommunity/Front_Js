@@ -17,12 +17,10 @@ export default function SideBarItem({title, tag}) {
   useEffect(() => {
     if (tag) {
       if (tag.length > 1) {
-        console.log('1개 이상');
         searchPosting('hashTag', tag[getRandom(0, tag.length)]).then((result) => {
         setRecommendPosting(result);
         })
       } else {
-        console.log('1개임');
         searchPosting('hashTag', tag && tag[0]).then((result) => {
         setRecommendPosting(result);
         })
@@ -36,7 +34,7 @@ export default function SideBarItem({title, tag}) {
       </div>
       <div className="item_list">
         {recommendPosting && recommendPosting.map((data, index) => (
-          <span key={index} onClick={()=> handleItemClick(data)}>{`${data.title} ${data.id}`}</span>
+          <span key={index} onClick={()=> handleItemClick(data)}>{`${data.title}`}</span>
         ))}
       </div>
     </div>

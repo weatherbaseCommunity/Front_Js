@@ -1,12 +1,20 @@
 import React, { useState, useRef, useMemo } from "react";
 import usePressLike from "../../services/post/usePressLike";
 import '../../style/likeUp.scss'
+import getPostingById from "../../apis/api/getPostingById";
 
-export default function LikeUp({likeCount, id}) {
-  const {pressLike} = usePressLike();
-  const likeButtonOnClick = () => {
-    pressLike(id);
-    window.location.reload();
+export default function LikeUp(props) {
+  const { likeCount, id, updateData } = props;
+  const { pressLike } = usePressLike();
+
+  const likeButtonOnClick = async () => {
+    // 서버에 카운트 올려줌
+    await pressLike(id);
+
+    // 카운트가 올라간 바뀐데이터 새로 적용
+    getPostingById(id).then((result) => {
+      updateData(result);
+    })
   }
 
 

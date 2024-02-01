@@ -14,10 +14,12 @@ export default function useReplyComment() {
         boardId: boardId,
         commentId: null,
       }).then((result) => {
+        
         console.log(result);
       }).catch((error) => {
         console.log(error);
       })
+
     } else {
       alert("로그인 후 이용해 주십시오");
       navigate('/signIn');
