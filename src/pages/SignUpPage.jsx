@@ -148,7 +148,12 @@ export default function SignUpPage() {
                 />
               </div>
             </form>
-            <button onClick={commonSignUp}>회원가입</button>
+            <SignUpButton 
+              onClick={commonSignUp}
+              background={'#3a3a3a'}
+            >
+              <span>회원가입</span>
+            </SignUpButton>
           </li>
         </ul>
         <p>

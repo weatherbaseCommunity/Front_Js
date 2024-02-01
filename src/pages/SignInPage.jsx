@@ -171,7 +171,9 @@ export default function SignInPage() {
                 />
               </div>
             </form>
-            <button onClick={commonSignIn}>로그인</button>
+            <LoginButton onClick={commonSignIn} background={'#3a3a3a'}>
+              <span>로그인</span>
+            </LoginButton>
             <MiddleLine>
               <span>또는</span>
             </MiddleLine>
